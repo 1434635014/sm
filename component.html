@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <my-component></my-component>
+    </div>
+
+
+    <script src="js/vue.js"></script>
+    <script>
+        Vue.component('my-component', {
+            template: '<a href="test.html">13131313</a>'
+        })
+
+        new Vue({
+            el:'#app',
+            data:{
+                num:12313
+            }
+        })
+
+    </script>
+</body>
+</html>

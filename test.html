@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册页面</title>
+    <script src="js/snowmoon-ie.js"></script>
+    <style>.block{width: 100px; height: 100px; background-color: #42b983; float: left; margin-left: 30px} button{cursor: pointer;} .hide{display: none} .isShow{display: block;transition:all 1s;}</style>
+</head>
+<body>
+    <div id="app">
+        <div sm-text="  num "></div>
+
+        <div>---------------------------------------------</div>
+        <div sm-html="html.a.b"></div>
+        <input type="text" sm-model="num"/>
+        <div>
+            <button sm-on:click="addNum(5)">点击+5</button>
+            <button sm-on:click="minusNum(5)">点击-5</button>
+        </div> v
+        <ul>
+            <li sm-for="list.a.a" >{{ 'name值：' +$item.name+ '，value值：'  +$list[$index].value +'，index值：'+ $index +'，num值：'+ num}}</li>
+        </ul>
+        <div>---------------------------------------------</div>
+        <ul>
+            <li sm-for="list.a.a">
+                {{num*num}}<button @click="alert($index, $event, num)">点击弹出列表下标</button>
+            </li>
+        </ul>
+        <div ></div>
+        <div>---------------------------------------------</div>
+        <div><button @click="showAndHide()">点击隐藏和显显示</button></div>
+        <div style="overflow:hidden;">
+            <div class="block" sm-if="isShow">{{num}}</div>
+            <div class="block" sm-show="isShow">{{num}}</div>
+            <div class="block hide" sm-bind:class=" { isShow: isShow }"
+                 :style=" { background-color: backStyle, color: colorStyle, font-size: fontSizeStyle}">{{num}}</div>
+        </div>
+        <div>---------------------------------------------</div>
+        <ul sm-for="obj">
+            {{'key值：'+$key+'，value值：'+obj[$key] +num}}
+        </ul>
+        <component-one>
+
+
+        </component-one>
+        <div sm-for="list2">
+            111
+            <div sm-for="$item.list.a">
+                <span sm-for="$item">{{'：：：'+$item + num}}</span>
+            </div>
+        </div>
+    </div>
+    <script>
+        var sm = new SM({
+            el: '#app',
+            component: {
+                'component-one':{
+                    template:'<div>{{num}}</div>'
+                }
+            },
+            data: {
+                obj:{
+                    a:11,
+                    b:22,
+                    c:33
+                },
+                num: 1,
+                html: {
+                    a:{b: '<a sm-bind:href="href">{{num}}</a><a :href="href" sm-text="num"></a>',}
+                },
+                list:{
+                    a: {
+                        a:[
+                            {name:'name1', value:'value1'},
+                            {name:'name2', value:'value2'},
+                            {name:'name3', value:'value3'},
+                            {name:'name4', value:'value4'},
+                            {name:'name5', value:'value5'},
+                            {name:'name6', value:'value6'},
+                            {name:'name7', value:'value7'}
+                        ]
+                    }
+                },
+                isShow: true,
+                backStyle: '#be863d',
+                colorStyle: 'white',
+                fontSizeStyle: '20px',
+                href:'http://www.baidu.com',
+                list2:[
+                  {
+                    list:{
+                      a: [
+                        ['大',1,12]
+                      ]
+                    }
+                  }
+                ]
+            },
+            methods: {
+                addNum: function (num) {
+                    this.num += num
+                    this.backStyle = '#9f4e74'
+                    this.href = 'http://www.baidu.com/'
+                },
+                minusNum: function (num) {
+                    this.num -= num
+                    this.backStyle = '#be863d'
+                    this.href = 'https://www.duba.com/'
+                },
+                alert:function (index, e, num) {
+                    console.log(e)
+                    console.log(num)
+                    alert(index)
+                },
+                showAndHide: function () {
+                    this.isShow = !this.isShow
+                }
+            },
+            created: function () {
+                console.log('sm创建开始')
+                this.num = 5;
+                this.addNum(5)
+            },
+            mounted: function () {
+                console.log('sm创建完成')
+            }
+        })
+
+        //创建一个监听方法，用来监听num改变
+        sm.$watch('num', function (newVal, originalVal) {
+            console.log("num值变化，新的值："+newVal+"，最初原始值："+originalVal)
+        })
+
+
+    </script>
+</body>
+</html>

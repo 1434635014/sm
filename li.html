@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <ul id="dd">
+        <li v-for="$item in list2" v-on:click="alert($index)"  >{{ 'name值：' +$item.name+ '，value值'}}</li>
+        <div v-html="html"></div>
+    </ul>
+
+
+    <script>
+        var obj = {
+            list: [
+                {a:13, adad:1313}
+            ]
+        }
+        function watch(_obj, name, value, isItem) {
+            Object.defineProperty(_obj, name, {
+                enumerable: true,
+                configurable: true,
+                set: function proxySetter(newVal) {
+                    console.log(newVal)
+                    value = newVal;
+                },
+                get: function proxyGetter() {
+                    return value;
+                }
+            })
+            if(!isItem) {
+                watch(value, '0', value[0], true)
+            }
+        }
+        watch(obj, 'list', obj.list)
+
+
+//        var app = new Vue({
+//            el:'#dd',
+//            data:{
+//                list2:[
+//                    {name:'name1', value:'value1'},
+//                    {name:'name2', value:'value2'},
+//                ],
+//                html:'<a href="#">{{obj.a}}</a>',
+//                obj:{
+//                    a:1313
+//                }
+//            }
+//        })
+
+    </script>
+</body>
+</html>
